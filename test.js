@@ -1,4 +1,1 @@
-functi tst {
-  dda..s;
-  adaf
-}
+function testehusky () {}
