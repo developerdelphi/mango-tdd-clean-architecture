@@ -1,0 +1,3 @@
+functi tst {
+  dda..s;
+}
