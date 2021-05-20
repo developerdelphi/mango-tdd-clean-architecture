@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "jest --watchAll",
-    "test:staged": "jest",
+    "test": "jest --watch --silent --colors --noStackTrace",
+    "test:staged": "jest --passWithNoTests --findRelatedTests ./src/* --silent --noStackTrace",
     "prepare": "husky install",
     "pre-commit": "lint-staged"
   },
