@@ -18,6 +18,8 @@ class AuthUseCaseSpy {
 
 const makeSut = () => {
   const authUseCase = new AuthUseCaseSpy()
+  // Enviando um token para garantir o acesso
+  authUseCase.token = 'valid_token'
 
   const sut = new LoginRouter(authUseCase)
 
@@ -102,10 +104,7 @@ describe('Login Router', () => {
   })
 
   test('Should return 200 when valid credentials are provided', () => {
-    const { sut, authUseCase } = makeSut()
-
-    authUseCase.token = 'valid_token'
-    console.log(authUseCase)
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         email: 'email@.email.com',
