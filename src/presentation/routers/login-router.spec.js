@@ -3,9 +3,16 @@ const MissingParamError = require('../helpers/missing-param-error')
 const UnauthorizedError = require('../helpers/unauthorized-error')
 
 class AuthUseCaseSpy {
+  constructor () {
+    this.token = null
+    this.email = null
+    this.password = null
+  }
+
   auth (email, password) {
     this.email = email
     this.password = password
+    return this.token
   }
 }
 
@@ -78,7 +85,10 @@ describe('Login Router', () => {
   })
 
   test('Should return 401 when invalid credentials are provided', () => {
-    const { sut } = makeSut()
+    const { sut, authUseCase } = makeSut()
+
+    authUseCase.token = null
+
     const httpRequest = {
       body: {
         email: 'invalid_email@.email.com',
@@ -89,6 +99,22 @@ describe('Login Router', () => {
     const httpResponse = sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(401)
     expect(httpResponse.body).toEqual(new UnauthorizedError())
+  })
+
+  test('Should return 200 when valid credentials are provided', () => {
+    const { sut, authUseCase } = makeSut()
+
+    authUseCase.token = 'valid_token'
+    console.log(authUseCase)
+    const httpRequest = {
+      body: {
+        email: 'email@.email.com',
+        password: 'password'
+      }
+    }
+
+    const httpResponse = sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(200)
   })
 
   test('Should return 500 if not AuthUseCase is provided', () => {
