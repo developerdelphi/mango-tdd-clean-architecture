@@ -102,6 +102,15 @@ const makeUpdateAccessTokenRepository = () => {
   const updateAccessTokenRepository = new UpdateAccessTokenRepositorySpy()
   return updateAccessTokenRepository
 }
+const makeUpdateAccessTokenRepositoryWithError = () => {
+  class UpdateAccessTokenRepositorySpy {
+    async update () {
+      throw new Error()
+    }
+  }
+  const updateAccessTokenRepository = new UpdateAccessTokenRepositorySpy()
+  return updateAccessTokenRepository
+}
 
 const makeSut = () => {
   const encrypterSpy = makeEncrypter()
@@ -275,7 +284,7 @@ describe('Auth UseCase', () => {
         loadUserByEmailRepository,
         encrypter,
         tokenGenerator,
-        updateAccessTokenRepository: null
+        updateAccessTokenRepository: makeUpdateAccessTokenRepositoryWithError()
       })
     )
 
